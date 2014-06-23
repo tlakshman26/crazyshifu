@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="kendo/styles/kendo.mobile.all.min.css" rel="stylesheet" />
+    <link href="styles/main.css" rel="stylesheet" />
+
+    <script src="cordova.js"></script>
+    <script src="kendo/js/jquery.min.js"></script>
+    <script src="kendo/js/kendo.mobile.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
+
+    <script src="scripts/app.js"></script>
+    <script src="scripts/login.js"></script>
+    <script src="scripts/location.js"></script>
+    <script src="scripts/weather.js"></script>
+</head>
+<body>
+    <div data-role="view" id="drawer-home" data-layout="drawer-layout" data-title="">
+    
+	</div>
+    <div data-role="drawer" id="my-drawer" style="width: 270px" data-views="['drawer-home', 'drawer-starred', 'drawer-deleted', 'drawer-spam', 'drawer-drafts', 'drawer-sent', '/kendo-ui/mobile/m/drawer/index.html']">
+        <ul data-role="listview" data-type="group">
+            <li>Mailbox
+                <ul>
+                    <li data-icon="inbox"><a href="#drawer-home" data-transition="none">Inbox</a></li>
+                    <li data-icon="star"><a href="#drawer-starred" data-transition="none">Starred Items</a></li>
+                    <li data-icon="compose"><a href="#drawer-drafts" data-transition="none">Drafts</a></li>
+                    <li data-icon="sent"><a href="#drawer-sent" data-transition="none">Sent Items</a></li>
+                    <li data-icon="trash"><a href="#drawer-deleted" data-transition="none">Deleted Items</a></li>
+                    <li data-icon="spam"><a href="#drawer-spam" data-transition="none">Spam</a></li>
+                </ul>
+            </li>
+            <li>Tasks
+                <ul>
+                    <li>To Do</li>
+                    <li>In Progress</li>
+                    <li>Done</li>
+                    <li>High Priority</li>
+                    <li>Low Priority</li>
+                </ul>
+            </li>
+            <li>Account
+                <ul>
+                    <li data-icon="settings">Settings</li>
+                    <li data-icon="off">Log Out</li>
+                </ul>
+            </li>
+        </ul>
+	</div>
+
+	<div data-role="layout" data-id="drawer-layout">
+    	<header data-role="header">
+            <div data-role="navbar">
+                <a data-role="button" data-rel="drawer" href="#my-drawer" data-icon="trash" data-align="left"></a>
+                <span data-role="view-title">ee</span>
+                <a data-align="right" data-role="button" class="nav-button" href="#/">Index</a>
+            </div>
+        </header>
+    </div>
+    
+
+    <!--Weather forecast template-->
+    <script id="weather-forecast-template" type="text/x-kendo-tmpl">
+        <div class="w-item-template">
+            <span class="w-icon ${image}"></span>
+            <h4 class="w-date">${day}</h4>
+            <div class="w-temp">
+                <span>${highTemperature}<sup>&deg;</sup></span>
+                <span>${lowTemperature}<sup>&deg;</sup></span>
+            </div>
+        </div>
+    </script>
+
+    <!--Layout-->
+    
+</body>
+</html>

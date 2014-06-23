@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
     <meta charset="utf-8" />
     <link href="kendo/styles/kendo.mobile.all.min.css" rel="stylesheet" />
     <link href="styles/main.css" rel="stylesheet" />
@@ -9,131 +8,199 @@
     <script src="cordova.js"></script>
     <script src="kendo/js/jquery.min.js"></script>
     <script src="kendo/js/kendo.mobile.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
+    
 
-    <script src="scripts/app.js"></script>
-    <script src="scripts/login.js"></script>
-    <script src="scripts/location.js"></script>
-    <script src="scripts/weather.js"></script>
+<style>
+.arrogw {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-left:-20px;
+}
+
+.bounce {
+	-webkit-animation-name: bounce;
+	-moz-animation-name: bounce;
+	-o-animation-name: bounce;
+	animation-name: bounce;
+}
+.animated{-webkit-animation-fill-mode:both;
+-moz-animation-fill-mode:both;
+-ms-animation-fill-mode:both;
+-o-animation-fill-mode:both;
+
+            animation-iteration-count: infinite;
+       -moz-animation-iteration-count: infinite;
+    -webkit-animation-iteration-count: infinite;
+
+animation-fill-mode:both;
+-webkit-animation-duration:2s;
+-moz-animation-duration:2s;
+-ms-animation-duration:2s;
+-o-animation-duration:2s;
+animation-duration:2s;
+}
+
+
+@-webkit-keyframes bounce {
+	0%, 20%, 50%, 80%, 100% {-webkit-transform: translateX(0);}	40% {-webkit-transform: translateX(-30px);}
+	60% {-webkit-transform: translateX(-15px);}
+}
+
+@-moz-keyframes bounce {
+	0%, 20%, 50%, 80%, 100% {-moz-transform: translateX(0);}
+	40% {-moz-transform: translateX(-30px);}
+	60% {-moz-transform: translateX(-15px);}
+}
+
+@-o-keyframes bounce {
+	0%, 20%, 50%, 80%, 100% {-o-transform: translateX(0);}
+	40% {-o-transform: translateX(-30px);}
+	60% {-o-transform: translateX(-15px);}
+}
+@keyframes bounce {
+	0%, 20%, 50%, 80%, 100% {transform: translateX(0);}
+	40% {transform: translateX(-30px);}
+	60% {transform: translateX(-15px);}
+}
+</style>
 </head>
 <body>
-    <!--Home View-->
-    <div id="tabstrip-home"
-        data-role="view"
-        data-title="Home">
-        <header data-role="header">
-            <div data-role="navbar">
-                <span data-role="view-title"></span>
-                <a id="skin-change" data-role="button" data-align="right" data-click="app.changeSkin">Flat</a>
-            </div>
-        </header>
-
-        <h3>Welcome!</h3>
-        <p>
-            Telerik AppBuilder&trade; enables you to build cross-platform device applications regardless of your
-            development platform by combining the convenience of a local development toolset with the
-            power and flexibility of the cloud.
-        </p>
-        <div class="welcome-image"></div>
-    </div>
-
-    <!--Login View-->
-    <div id="tabstrip-login"
-        data-role="view"
-        data-title="Login"
-        data-model="app.loginService.viewModel">
-
-        <div class="logo-image"></div>
-        <div>
-            <h3 data-bind="visible: isLoggedIn">Welcome, <span data-bind="    text: username"></span>!</h3>
-            <input id="logout" type="submit" data-role="button" data-bind="click: onLogout, visible: isLoggedIn" value="Logout" class="login-button" />
-        </div>
-        <form data-bind="events: { keyup: checkEnter }">
-            <h3 data-bind="invisible: isLoggedIn">Enter your credentials:</h3>
-            <ul data-role="listview" data-style="inset" data-bind="invisible: isLoggedIn">
-                <li>
-                    <label>
-                        <div>Username</div>
-                        <input type="text" data-bind="value: username" />
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        <div>Password</div>
-                        <input type="password" data-bind="value: password" />
-                    </label>
-                </li>
-            </ul>
-            <input id="login" type="submit" data-role="button" data-bind="click: onLogin, invisible: isLoggedIn" value="Login" class="login-button" />
-        </form>
-    </div>
-
-    <!--Location View-->
-    <div id="tabstrip-location"
-        data-role="view"
-        data-title="Location"
-        data-init="app.locationService.initLocation"
-        data-show="app.locationService.show"
-        data-hide="app.locationService.hide"
-        data-model="app.locationService.viewModel"
-        data-stretch="true">
-
-        <div id="map-canvas" class="map" data-bind="visible: isGoogleMapsInitialized"></div>
-
-        <div id="no-map" data-bind="invisible: isGoogleMapsInitialized">
-            <h3>Location requires internet connection to display the map.</h3>
-        </div>
-        <div id="map-search-wrap" class="map-tools" data-bind="visible: isGoogleMapsInitialized">
-            <div>
-                <button id="map-navigate-home" class="map-tools-button home" data-bind="click: onNavigateHome"></button>
-                <input id="map-address" type="search" class="map-tools-input" data-bind="value: address" placeholder="Address" />
-                <button id="map-search" class="map-tools-button search" data-bind="click: onSearchAddress"></button>
+    
+    <div data-role="view" data-stretch="true" id="scrollview-home" data-title="Photo Gallery">
+    <div id="scrollview-container">
+        <div data-role="scrollview">
+            <div class="photo photo1" data-role="page">
+            </div><div class="photo photo2" data-role="page">
+            </div><div class="photo photo3" data-role="page">
+            </div><div class="photo photo4" data-role="page">
             </div>
         </div>
     </div>
-
-    <!--Weather View-->
-    <div id="tabstrip-weather"
-        data-role="view"
-        data-title="Weather"
-        data-model="app.weatherService.viewModel">
-
-        <ul data-role="listview" data-style="inset"
-            data-bind="source: weatherDataSource"
-            data-template="weather-forecast-template">
-        </ul>
-    </div>
-
-    <!--Weather forecast template-->
-    <script id="weather-forecast-template" type="text/x-kendo-tmpl">
-        <div class="w-item-template">
-            <span class="w-icon ${image}"></span>
-            <h4 class="w-date">${day}</h4>
-            <div class="w-temp">
-                <span>${highTemperature}<sup>&deg;</sup></span>
-                <span>${lowTemperature}<sup>&deg;</sup></span>
+        <!--
+    <div data-role="view" data-stretch="true" data-title="Photo Gallery">
+        <div data-role="scrollview" data-content-height="100%">
+            <div data-role="page" align="center" class="page">
+                <div class="content">
+                    <div class="arrow animated bounce">
+                        <img width="40" height="40" alt="" src="" />
+                    </div>
+                    Slide
+                </div>
             </div>
-        </div>
-    </script>
-
-    <!--Layout-->
-    <div data-role="layout" data-id="tabstrip-layout">
-        <!--Header-->
-        <div data-role="header">
-            <div data-role="navbar">
-                <span data-role="view-title"></span>
+            <div data-role="page">
+                <div class="content">
+                    page2
+                </div>
             </div>
-        </div>
-
-        <!--Footer-->
-        <div data-role="footer">
-            <div data-role="tabstrip">
-                <a href="#/" data-icon="home">Home</a>
-                <a href="#tabstrip-login" data-icon="contacts">Login</a>
-                <a href="#tabstrip-location" data-icon="search">Location</a>
-                <a href="#tabstrip-weather" data-icon="globe">Weather</a>
+            <div data-role="page">
+                <div class="content">
+                    page3
+                </div>
+            </div>
+            <div data-role="page">
+                <div class="content">
+					<a class="button selected-button" data-role="button" href="#page1.html">Home</a>
+                    <a class="button" data-role="button" href="#">Facility</a>
+                    <a class="button" data-role="button" href="#">Sports</a>
+					Facebook integration
+                    <div id="fb-root"></div>
+                    <div class="facebook_button active"><img class="fb_content" src="assets/facebook_icon.png"/>
+                        <span class="fb_content">Login</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+-->
+    <style>
+    #scrollview-home .photo {
+        margin: 0;
+        height: 220px;
+        display: inline-block;
+        -webkit-background-size: auto 100%;
+        background-size: auto 100%;
+        background-repeat: no-repeat;
+        background-position: center center;
+    }
+
+    .km-wp #scrollview-home .photo {
+        height: 15em;
+    }
+
+    .photo1 {background-image: url(styles/images/appbuilder.png);}
+    .photo2 {background-image: url(styles/images/location_active.png);}
+    .photo3 {background-image: url(styles/images/sprite-weather.png);}
+    .photo4 {background-image: url(styles/images/location_active.png);}
+    
+
+    #scrollview-container {
+        margin: 60px 0 1em 0;
+        padding-bottom: 20px;
+        padding-top: 20px;
+        background: rgba(0,0,0,.1);
+        border: 1px solid rgba(0,0,0,.3);
+        border-width: 1px 0;
+        box-shadow: 0 1px 1px rgba(255,255,255,.3);
+    }
+
+    .km-flat #scrollview-container {
+        background: transparent;
+        border-width: 0;
+        box-shadow: none;
+    }
+
+    .km-ios #scrollview-container {
+        background: url(../content/shared/images/patterns/pattern1.png);
+        box-shadow: 0 0 2px rgba(255,255,255,.5), inset 0 0 7px #000;
+    }
+
+    #scrollview-home .km-ios .km-content {
+        background: #bbb;
+    }
+    .km-android .km-list .album-set a {
+    	background-color: #277692;
+    }
+    .km-ios .km-list .album-set a {
+    	background-color: #bbb;
+    }
+    .km-ios #scrollview-home .km-navbar {
+        background: -webkit-gradient(linear, 50% 0, 50% 100%, color-stop(0, rgba(255,255,255,.5)), color-stop(.06, rgba(255,255,255,.45)), color-stop(.5, rgba(255,255,255,.2)), color-stop(.5, rgba(255,255,255,.15)), color-stop(1, rgba(100,100,100,0))), url(../content/shared/images/patterns/pattern5.png);
+        background: -moz-linear-gradient(top, rgba(255,255,255,.5), rgba(255,255,255,.45) 6%, rgba(255,255,255,.2) 50%, rgba(255,255,255,.15) 50%, rgba(100,100,100,0)), url(../content/shared/images/patterns/pattern5.png);
+	}
+    .km-ios #scrollview-home .km-navbar .km-button
+    {
+        background-color: #000;
+    }
+	.km-ios #scrollview-home .km-content {
+        background: url(../content/shared/images/patterns/pattern6.png);
+        box-shadow: inset 0 0 30px #000;
+	}
+
+	.km-ios #scrollview-container .km-pages .km-current-page {
+		background-color: #ff009c;
+	}
+	.km-ios #scrollview-container .km-pages {
+		padding-top: 18px;
+	}
+    .km-ios #scrollview-home .km-view-title
+    {
+        color: #fff;
+        text-shadow: 0 -1px rgba(0,0,0,.5);
+    }
+</style>
+
+
+<script>
+    var app = new kendo.mobile.Application(document.body);
+</script>
+
+    
+    <style>
+        body{
+            text-align: center;
+        }
+        
+    </style>
 </body>
 </html>
